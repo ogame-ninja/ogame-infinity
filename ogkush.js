@@ -1,3 +1,8 @@
+const universeNum = /browser\/html\/s(\d+)-(\w+)/.exec(window.location.href)[1];
+const lang = /browser\/html\/s(\d+)-(\w+)/.exec(window.location.href)[2];
+const UNIVERSE = "s" + universeNum + "-" + lang;
+const localStoragePrefix = UNIVERSE + "-";
+
 var dataHelper = (function () {
     var requestId = 0;
     function expedition(message) {
@@ -45,9 +50,9 @@ var dataHelper = (function () {
     return { getExpeditionType: expedition, getPlayer: Get, filter: filter };
 })();
 let dotted = (value) => parseInt(value).toLocaleString("de-DE");
-let redirect = localStorage.getItem("ogl-redirect");
+let redirect = localStorage.getItem(localStoragePrefix + "ogl-redirect");
 if (redirect && redirect.indexOf("https") > -1) {
-    localStorage.setItem("ogl-redirect", false);
+    localStorage.setItem(localStoragePrefix + "ogl-redirect", false);
     window.location.href = redirect;
 }
 (function goodbyeTipped() {
@@ -133,7 +138,7 @@ class OGInfinity {
         this.planetList = document.querySelectorAll(".smallplanet");
         this.isMobile = "ontouchstart" in document.documentElement;
         this.eventAction = this.isMobile ? "touchstart" : "mouseenter";
-        this.universe = window.location.host.replace(/\D/g, "");
+        this.universe = universeNum;
         this.geologist = document.querySelector(".geologist.on") ? true : false;
         this.highlighted = false;
         this.tooltipList = {};
@@ -145,7 +150,7 @@ class OGInfinity {
         this.current.isMoon = this.current.hasMoon && this.current.planet.querySelector(".moonlink.active") ? true : false;
     }
     init() {
-        let res = JSON.parse(localStorage.getItem("ogk-data"));
+        let res = JSON.parse(localStorage.getItem(localStoragePrefix + "ogk-data"));
         this.json = res || {};
         this.json.welcome = this.json.welcome === false ? false : true;
         this.json.empire = this.json.empire || [];
@@ -305,7 +310,7 @@ class OGInfinity {
             if (this.page == "fleetdispatch") {
                 this.welcome();
             } else {
-                window.location.href = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ingame&component=fleetdispatch`;
+                window.location.href = `?page=ingame&component=fleetdispatch`;
             }
         }
         sendShips = function (order, galaxy, system, planet, planettype, shipCount) {
@@ -441,7 +446,7 @@ class OGInfinity {
             this.json.myMines[this.current.coords] = mines;
             this.saveData();
             if (!mines.temperature) {
-                document.location = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ingame&component=overview`;
+                document.location = `?page=ingame&component=overview`;
             }
         }
         this.planetList.forEach((planet) => {
@@ -658,7 +663,7 @@ class OGInfinity {
                         elemTechnologyDetailsContent.append(json.content[json.target]);
                         elemTechnologyDetails.addClass(anchor.data("technologydetails-size")).offset(anchor.offset());
                     }
-                    localStorage.setItem("detailsOpen", true);
+                    localStorage.setItem(localStoragePrefix + "detailsOpen", true);
                     $(document).trigger("ajaxShowElement", typeof technologyId === "undefined" ? 0 : technologyId);
                     let costDiv = document.querySelector(".costs");
                     let titleDiv = costDiv.appendChild(that.createDOM("div", { class: "ogk-titles" }));
@@ -1019,7 +1024,7 @@ class OGInfinity {
     }
     updateServerSettings() {
         if (this.json.trashsimSettings) return;
-        let settingsUrl = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/api/serverData.xml`;
+        let settingsUrl = `/api/s${this.universe}/${this.gameLang}/serverData.xml`;
         return fetch(settingsUrl)
             .then((rep) => rep.text())
             .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
@@ -1820,7 +1825,7 @@ class OGInfinity {
         let content = this.createDOM(
             "div",
             { class: "ogl-warning-dialog overmark", style: "padding: 25px" },
-            `<div class="premium">\n      <div class="officers100  commander">\n            <a href="https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=premium&openDetail=2" class="detail_button">\n              <span class="ecke">\n                  <span class="level">\n                      <img src="https://gf3.geo.gfsrv.net/cdnbc/aa2ad16d1e00956f7dc8af8be3ca52.gif" width="12" height="11">\n                  </span>\n              </span>\n          </a>\n      </div>\n    </div>\n    The commander officier is required for these features...`
+            `<div class="premium">\n      <div class="officers100  commander">\n            <a href="?page=premium&openDetail=2" class="detail_button">\n              <span class="ecke">\n                  <span class="level">\n                      <img src="https://gf3.geo.gfsrv.net/cdnbc/aa2ad16d1e00956f7dc8af8be3ca52.gif" width="12" height="11">\n                  </span>\n              </span>\n          </a>\n      </div>\n    </div>\n    The commander officier is required for these features...`
         );
         this.popup(null, content);
     }
@@ -2516,7 +2521,7 @@ class OGInfinity {
         this.popup(null, body);
     }
     fetchAndConvertRC(messageId) {
-        return fetch(`https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=messages&messageId=${messageId}&tabid=21&ajax=1`)
+        return fetch(`?page=messages&messageId=${messageId}&tabid=21&ajax=1`)
             .then((rep) => rep.text())
             .then((str) => {
                 let begin = str.indexOf("JSON('") + 6;
@@ -3233,7 +3238,7 @@ class OGInfinity {
         return `https://www.mmorpg-stat.eu/0_fiche_joueur.php?pays=${lang}&ftr=${playerid}.dat&univers=_${this.universe}`;
     }
     generateHiscoreLink(playerid) {
-        return `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=highscore&searchRelId=${playerid}`;
+        return `?page=highscore&searchRelId=${playerid}`;
     }
     playerSearch(show, name) {
         let getStatus = (status, noob) => {
@@ -3252,9 +3257,7 @@ class OGInfinity {
             this.saveData();
             let planetsColumn = this.createDOM("div", { class: "ogl-planets-col" });
             let controlRow = planetsColumn.appendChild(this.createDOM("div", { class: "ogl-search-controls" }));
-            let name = `<span class="ogl-${player.status}">${player.name}</span> ${status}\n                  <a target="_self"\n                    href="https://s${this.universe}-${
-                this.gameLang
-            }.ogame.gameforge.com/game/index.php?page=highscore&searchRelId=${player.id}"\n                    class="ogl-ranking">#${player.points.position || "b"}\n                  </a>`;
+            let name = `<span class="ogl-${player.status}">${player.name}</span> ${status}\n                  <a target="_self"\n                    href="?page=highscore&searchRelId=${player.id}"\n                    class="ogl-ranking">#${player.points.position || "b"}\n                  </a>`;
             controlRow.appendChild(this.createDOM("span", {}, name));
             let btns = controlRow.appendChild(this.createDOM("div"));
             let pinBtn = btns.appendChild(this.createDOM("a", { class: "ogl-pin" }));
@@ -4453,7 +4456,7 @@ class OGInfinity {
             let sent = false;
             let sendFleet = () => {
                 if (sent) return;
-                localStorage.setItem("ogl-redirect", link);
+                localStorage.setItem(localStoragePrefix + "ogl-redirect", link);
                 sent = true;
                 this.json.myEmpire[pCoords].metal -= fleetDispatcher.cargoMetal;
                 this.json.myEmpire[pCoords].crystal -= fleetDispatcher.cargoCrystal;
@@ -4625,7 +4628,7 @@ class OGInfinity {
         window.onbeforeunload = function (e) {
             abortController.abort();
         };
-        return fetch(`https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=standalone&component=empire`, { signal: abortController.signal })
+        return fetch(`?page=standalone&component=empire`, { signal: abortController.signal })
             .then((rep) => rep.text())
             .then((str) => {
                 let planets = JSON.parse(str.substring(str.indexOf("createImperiumHtml") + 47, str.indexOf("initEmpire") - 16)).planets;
@@ -4641,7 +4644,7 @@ class OGInfinity {
                     }
                 });
                 if (hasMoon) {
-                    return fetch(`https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=standalone&component=empire&planetType=1`, { signal: abortController.signal })
+                    return fetch(`?page=standalone&component=empire&planetType=1`, { signal: abortController.signal })
                         .then((rep) => rep.text())
                         .then((str) => {
                             let moons = JSON.parse(str.substring(str.indexOf("createImperiumHtml") + 47, str.indexOf("initEmpire") - 16)).planets;
@@ -5278,14 +5281,14 @@ class OGInfinity {
         if (this.tchat) {
             ogame.chat.loadChatLogWithPlayer(Number(id));
         } else {
-            document.location = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=chat&playerId=${id}`;
+            document.location = `?page=chat&playerId=${id}`;
         }
     }
     generateIgnoreLink(playerId) {
-        return `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ignorelist&action=1&id=${playerId}`;
+        return `?page=ignorelist&action=1&id=${playerId}`;
     }
     generateBuddyLink(playerId) {
-        return `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ingame&component=buddies&action=7&id=${playerId}&ajax=1`;
+        return `?page=ingame&component=buddies&action=7&id=${playerId}&ajax=1`;
     }
     stalk(sender, player, delay) {
         let finalPlayer;
@@ -5667,12 +5670,12 @@ class OGInfinity {
         if (this.page == "fleetdispatch" && this.mode == 4) {
             let link = "https://" + window.location.host + window.location.pathname + "?page=messages";
             document.querySelector("#sendFleet").addEventListener("click", () => {
-                localStorage.setItem("ogl-redirect", link);
+                localStorage.setItem(localStoragePrefix + "ogl-redirect", link);
             });
             let sent = false;
             document.addEventListener("keydown", (event) => {
                 if (!sent && event.keyCode === 13 && fleetDispatcher.currentPage == "fleet3") {
-                    localStorage.setItem("ogl-redirect", link);
+                    localStorage.setItem(localStoragePrefix + "ogl-redirect", link);
                     sent = true;
                 }
             });
@@ -6091,7 +6094,7 @@ class OGInfinity {
         return shipAmount * fret;
     }
     saveData() {
-        localStorage.setItem("ogk-data", JSON.stringify(this.json));
+        localStorage.setItem(localStoragePrefix + "ogk-data", JSON.stringify(this.json));
     }
     createDOM(element, options, content) {
         let e = document.createElement(element);
@@ -6586,9 +6589,9 @@ class OGInfinity {
                     this.json.welcome = false;
                     this.saveData();
                     if (this.playerClass == 0) {
-                        window.location.href = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ingame&component=characterclassselection`;
+                        window.location.href = `?page=ingame&component=characterclassselection`;
                     } else {
-                        window.location.href = `https://s${this.universe}-${this.gameLang}.ogame.gameforge.com/game/index.php?page=ingame&component=overview`;
+                        window.location.href = `?page=ingame&component=overview`;
                     }
                 }
                 overlay.classList.remove("ogl-active");
@@ -6949,6 +6952,9 @@ class OGInfinity {
         var other = 0;
         var ogi = 0;
         for (var x in localStorage) {
+            if (!x.startsWith(localStoragePrefix)) {
+                continue;
+            }
             var amount = localStorage[x].length / 1024 / 1024;
             if (!isNaN(amount) && localStorage.hasOwnProperty(x)) {
                 if (x == "ogk-data") {
@@ -6962,7 +6968,10 @@ class OGInfinity {
     }
     purgeLocalStorage() {
         for (var x in localStorage) {
-            if (x != "ogk-data") {
+            if (!x.startsWith(localStoragePrefix)) {
+                continue;
+            }
+            if (x != localStoragePrefix + "ogk-data") {
                 delete localStorage[x];
             }
         }
@@ -7023,7 +7032,7 @@ class OGInfinity {
                 let json = JSON.parse(evt.target.result);
                 this.json = json;
                 this.saveData();
-                document.location = document.location.origin + "/game/index.php?page=ingame&component=overview ";
+                document.location = "?page=ingame&component=overview ";
             };
             reader.readAsText(event.target.files[0], "UTF-8");
         });

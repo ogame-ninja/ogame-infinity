@@ -10,7 +10,9 @@ function injectScript(path, cb, module = false) {
         cb && cb();
     };
 }
-const UNIVERSE = window.location.host.split(".")[0];
+const universeNum = /browser\/html\/s(\d+)-(\w+)/.exec(window.location.href)[1];
+const lang = /browser\/html\/s(\d+)-(\w+)/.exec(window.location.href)[2];
+const UNIVERSE = "s" + universeNum + "-" + lang;
 if (window.location.href.includes("galaxy")) {
     var s = document.createElement("script");
     s.innerHTML = `\n    const check = () => {\n      if (window.loadContent != undefined) {\n        window.loadGalaxy = loadContent;\n        loadContent = () => {}\n      } else {\n        requestAnimationFrame(check);\n      }\n    };\n    requestAnimationFrame(check);\n  `;
