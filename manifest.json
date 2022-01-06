@@ -1,0 +1,66 @@
+{
+  "action": {
+    "default_icon": {
+      "32": "assets/images/logo128.png"
+    },
+    "default_title": "Ogame Infinity"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "css": [
+        "global.css"
+      ],
+      "exclude_matches": [
+        "https://*.ogame.gameforge.com/game/admin2/*"
+      ],
+      "js": [
+        "main.js"
+      ],
+      "matches": [
+        "https://*.ogame.gameforge.com/game/*",
+        "*://*/bots/*/browser/html/*"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "description": "OGI - To Ogame's infinity and beyond!",
+  "host_permissions": [
+    "https://*.ogame.gameforge.com/game/*",
+    "\u003call_urls\u003e"
+  ],
+  "icons": {
+    "32": "assets/images/logo128.png",
+    "128": "assets/images/logo128.png",
+    "256": "assets/images/logo512.png",
+    "512": "assets/images/logo512.png"
+  },
+  "manifest_version": 3,
+  "name": "Ogame Infinity Ninja",
+  "permissions": [
+    "storage"
+  ],
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "2.3.9",
+  "web_accessible_resources": [
+    {
+      "extension_ids": [
+        "hfojakphgokgpbnejoobfamojbgolcbo"
+      ],
+      "matches": [
+        "\u003call_urls\u003e"
+      ],
+      "resources": [
+        "ogkush.js",
+        "main.js",
+        "libs/*",
+        "assets/*",
+        "util/*",
+        "ctxpage/*",
+        "ctxcontent/*"
+      ]
+    }
+  ]
+}
