@@ -1,0 +1,1 @@
+import{fetchXml}from"../../util/fetching.js";export function requestOGameServerData(universe){const url=new URL(`https://${universe}.ogame.gameforge.com/api/serverData.xml`);return fetchXml(url,{method:"GET"})}
