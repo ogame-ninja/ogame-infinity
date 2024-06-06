@@ -1,3 +1,1 @@
-const VERSION = "__VERSION__";
-
-export default VERSION;
+const VERSION="2.4.5";export default VERSION;
