@@ -1,0 +1,1 @@
+class OgamePageData{constructor(){this._gameLang=document.querySelector('meta[name="ogame-language"]').getAttribute("content");this._playerLang=document.cookie.match(/oglocale=([a-z]+)/)?.[1]||this._gameLang}get gameLang(){return this._gameLang}get playerLang(){return this._playerLang}}export default new OgamePageData;
