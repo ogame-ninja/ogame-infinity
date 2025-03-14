@@ -1,1 +1,4 @@
-export default Object.freeze({planet:1,moon:3});
+export default Object.freeze({
+  planet: 1,
+  moon: 3,
+});
