@@ -1,60 +1,66 @@
 {
-  "name": "Ogame Infinity Ninja",
-  "version": "2.5.1",
-  "manifest_version": 2,
-  "description": "OGI - To Ogame's infinity and beyond!",
-  "homepage_url": "https://ogameinfinity.com",
+  "action": {
+    "default_icon": {
+      "32": "assets/images/logo128.png"
+    },
+    "default_title": "Ogame Infinity"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
+      "css": [
+        "global.css"
+      ],
       "exclude_matches": [
         "https://*.ogame.gameforge.com/game/admin2/*"
+      ],
+      "js": [
+        "main.js"
       ],
       "matches": [
         "https://*.ogame.gameforge.com/game/*",
         "*://*/bots/*/browser/html/*"
       ],
-      "js": [
-        "main.js"
-      ],
-      "css": [
-        "global.css"
-      ],
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": [
-    "ogkush.js",
-    "libs/*",
-    "assets/*",
-    "util/*",
-    "ctxpage/*",
-    "ctxcontent/*"
+  "description": "OGI - To Ogame's infinity and beyond!",
+  "host_permissions": [
+    "https://*.ogame.gameforge.com/game/*"
   ],
-  "browser_action": {
-    "default_title": "Ogame Infinity",
-    "default_icon": {
-      "32": "assets/images/logo128.png"
-    }
-  },
   "icons": {
     "32": "assets/images/logo128.png",
     "128": "assets/images/logo128.png",
     "256": "assets/images/logo512.png",
     "512": "assets/images/logo512.png"
   },
+  "manifest_version": 3,
+  "name": "Ogame Infinity Ninja",
   "permissions": [
     "storage",
-    "https://*.ogame.gameforge.com/game/*",
     "\u003call_urls\u003e"
   ],
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{082ec2d7-1c60-4c98-808e-bafd9c33d5ea}"
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "2.5.1",
+  "web_accessible_resources": [
+    {
+      "extension_ids": [
+        "hfojakphgokgpbnejoobfamojbgolcbo"
+      ],
+      "matches": [
+        "\u003call_urls\u003e"
+      ],
+      "resources": [
+        "ogkush.js",
+        "main.js",
+        "libs/*",
+        "assets/*",
+        "util/*",
+        "ctxpage/*",
+        "ctxcontent/*"
+      ]
     }
-  }
+  ]
 }

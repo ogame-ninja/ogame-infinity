@@ -1,4 +1,1 @@
-export default Object.freeze({
-  harvest: 32,
-  transport: 33,
-});
+export default Object.freeze({harvest:32,transport:33});
