@@ -39,11 +39,10 @@
   "manifest_version": 3,
   "name": "Ogame Infinity Ninja",
   "permissions": [
-    "storage",
-    "\u003call_urls\u003e"
+    "storage"
   ],
   "update_url": "https://clients2.google.com/service/update2/crx",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "web_accessible_resources": [
     {
       "extension_ids": [
