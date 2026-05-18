@@ -31,15 +31,15 @@ import { getLogger } from "../util/logger.js";
 const log = getLogger("conf-options");
 
 const _options = {
-  limitCrawler: false,
+  limitCrawler: true,
   crawlerPercent: 1.5,
   reverseFilter: false,
   tradeRate: [2.5, 1.5, 1, 0],
-  dispatcher: false,
+  dispatcher: true,
   sideStalkVisible: true,
   eventBoxExps: true,
   eventBoxKeep: false,
-  empire: false,
+  empire: true,
   targetList: false,
   fret: 202,
   spyFret: 202,
@@ -47,7 +47,8 @@ const _options = {
   foreignMission: 3,
   harvestMission: 4,
   alertHostileIncomingMode: 0,
-  activitytimers: false,
+  importExportReminderMode: 2,
+  activitytimers: true,
   lessAggressiveEmpireAutomaticUpdate: false,
   navigationArrows: true,
   showProgressIndicators: true,
@@ -57,7 +58,7 @@ const _options = {
   pantryKey: "",
   simulator: "",
   rvalLimit: 1e6, // needs revision to consider the speed of the universe.
-  rvalSelfLimitPlanet: 1e6,
+  rvalSelfLimitPlanet: 1e7,
   rvalSelfLimitMoon: 1e6,
   standardUnitBase: 0,
   spyTableEnable: true,
@@ -66,6 +67,7 @@ const _options = {
   autoDeleteEnable: false,
   kept: {},
   defaultKept: {},
+  defaultKeptMoon: {},
   hiddenTargets: {},
   timeZone: true,
   collect: {
@@ -78,6 +80,8 @@ const _options = {
       type: 1,
     },
   },
+  customMissions: {},
+  nbCustomMissions: 0,
   expedition: {
     cargoShip: 202,
     combatShip: 218,
@@ -106,11 +110,16 @@ export function initConfOptions(options) {
   const collect = options?.collect || _options.collect;
   delete options["collect"];
 
+  const customMissions = options?.customMissions || _options.customMissions;
+  delete options["customMissions"];
+
   const expedition = options?.expedition || _options.expedition;
   delete options["expedition"];
 
   Object.assign(_options, options);
   Object.assign(_options.collect, collect);
+
+  Object.assign(_options.customMissions, customMissions);
   Object.assign(_options.expedition, expedition);
 }
 

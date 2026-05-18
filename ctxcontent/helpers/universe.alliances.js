@@ -39,18 +39,18 @@ function toAllianceResponseMap(response) {
   // TODO: need save cache expiration timestamp
 
   const doc = response.document.documentElement;
-  return Array.from(doc.childNodes).reduce(
+  return Array.from(doc.children).reduce(
     (acc, node) =>
       acc.set(Number(node.getAttribute("id")), {
         id: Number(node.getAttribute("id")),
         name: node.getAttribute("name"),
         tag: node.getAttribute("tag"),
-        players: Array.from(node.childNodes).map((n) => Number(n.getAttribute("id"))),
+        players: Array.from(node.children).map((n) => Number(n.getAttribute("id"))),
       }),
     new Map()
   );
 
-  // return Array.from(doc.childNodes).map((node) => ({
+  // return Array.from(doc.children).map((node) => ({
   //
   // }));
 }

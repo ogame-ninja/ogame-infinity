@@ -37,7 +37,7 @@ function toPlayerResponse(response) {
   // TODO: need save cache expiration timestamp
 
   const doc = response.document.documentElement;
-  return Array.from(doc.childNodes).map((node) => ({
+  return Array.from(doc.children).map((node) => ({
     id: parseInt(node.getAttribute("id"), 10),
     name: node.getAttribute("name"),
     alliance: node.hasAttribute("alliance") ? parseInt(node.getAttribute("alliance"), 10) : null,

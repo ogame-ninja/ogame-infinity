@@ -14,16 +14,27 @@
         "global.css"
       ],
       "exclude_matches": [
-        "https://*.ogame.gameforge.com/game/admin2/*"
-      ],
-      "js": [
-        "main.js"
+        "https://*.ogame.gameforge.com/game/admin2/*",
+        "https://*.ogame.gameforge.com/game/index.php?page=standalone\u0026component=empire"
       ],
       "matches": [
         "https://*.ogame.gameforge.com/game/*",
         "*://*/bots/*/browser/html/*"
       ],
       "run_at": "document_start"
+    },
+    {
+      "exclude_matches": [
+        "https://*.ogame.gameforge.com/game/admin2/*"
+      ],
+      "matches": [
+        "https://*.ogame.gameforge.com/game/*",
+        "*://*/bots/*/browser/html/*"
+      ],
+      "run_at": "document_start",
+      "js": [
+        "main.js"
+      ]
     }
   ],
   "description": "OGI - To Ogame's infinity and beyond!",
@@ -42,7 +53,7 @@
     "storage"
   ],
   "update_url": "https://clients2.google.com/service/update2/crx",
-  "version": "2.5.2",
+  "version": "2.5.6",
   "web_accessible_resources": [
     {
       "extension_ids": [

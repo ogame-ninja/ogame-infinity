@@ -121,7 +121,7 @@ const thenScore = (function () {
    */
   function thenStandardScore(xml) {
     const doc = xml.documentElement;
-    return Array.from(doc.childNodes).map((node) => ({
+    return Array.from(doc.children).map((node) => ({
       id: parseInt(node.getAttribute("id"), 10),
       score: parseInt(node.getAttribute("score"), 10),
       position: parseInt(node.getAttribute("position"), 10),
@@ -134,7 +134,7 @@ const thenScore = (function () {
    */
   function thenPlayerMilitaryScore(xml) {
     const doc = xml.documentElement;
-    return Array.from(doc.childNodes).map((node) => ({
+    return Array.from(doc.children).map((node) => ({
       id: parseInt(node.getAttribute("id"), 10),
       score: parseInt(node.getAttribute("score"), 10),
       position: parseInt(node.getAttribute("position"), 10),

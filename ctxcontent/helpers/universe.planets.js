@@ -37,12 +37,12 @@ function toPlanetMap(planetResponse) {
  */
 function toPlanetResponse(response) {
   const doc = response.document.documentElement;
-  return Array.from(doc.childNodes).map((node) => ({
+  return Array.from(doc.children).map((node) => ({
     id: parseInt(node.getAttribute("id"), 10),
     player: parseInt(node.getAttribute("player"), 10),
     name: node.getAttribute("name"),
     coords: node.getAttribute("coords"),
-    moon: parseInt(node?.firstChild?.getAttribute("id") || 0, 0),
+    moon: parseInt(node?.firstElementChild?.getAttribute("id") || 0, 0),
   }));
 }
 
